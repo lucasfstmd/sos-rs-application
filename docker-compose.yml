@@ -1,0 +1,50 @@
+services:
+  sos-data:
+    container_name: sos-data
+    restart: always
+    build:
+      context: sos-rs-data
+      dockerfile: Dockerfile
+    networks:
+      - sos-network
+    ports:
+      - "8080:8080"
+
+  sos-rs:
+    container_name: sos-rs
+    restart: always
+    build:
+      context: sos-rs
+      dockerfile: Dockerfile
+    networks:
+      - sos-network
+    ports:
+      - "80:80"
+      - "443:443"
+
+  mongo:
+    image: mongo:latest
+    container_name: sos-mongo
+    restart: always
+    networks:
+      - sos-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWD}
+    volumes:
+      - sos-mongo-data:/data/db
+    ports:
+      - "27017:27017"
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+
+volumes:
+  sos-mongo-data:
+    name: sos-mongo
+
+networks:
+  sos-network:
+    name: sos-network
+    driver: bridge

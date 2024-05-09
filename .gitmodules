@@ -1,0 +1,8 @@
+[submodule "sos-rs"]
+	path = sos-rs
+	url = https://github.com/lucasfstmd/sos-rs
+	branch = main
+[submodule "sos-rs-data"]
+	path = sos-rs-data
+	url = https://github.com/lucasfstmd/sos-rs-data
+	branch = main
